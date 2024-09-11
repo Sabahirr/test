@@ -223,9 +223,7 @@ if st.button('Proqnoz'):
 
     prediction = model.predict(input_data_scaled)            # for ANN model
     predict_percent = float(prediction[0]) * 100
-    # predict_percent = f"{float(prediction[0]) * 100:.1f}"
-
-
+    
     # Display the prediction probability
     if predict_percent > 80:
         card_html = f"""
