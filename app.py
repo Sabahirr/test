@@ -215,8 +215,7 @@ if st.button('Proqnoz'):
     input_data_scaled = scaler.transform(input_data)
     
     prediction = model.predict(input_data_scaled)
-    predict_percent = float(prediction[0]) * 100
-    st.write(f"netice: {predict_percent}")
+    predict_percent = f"{float(prediction[0]) * 100:.1f}
     
     # # 7. Proqnoz verin
     # prediction = model.predict_proba(input_data_scaled)
