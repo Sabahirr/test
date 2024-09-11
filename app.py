@@ -223,7 +223,6 @@ if st.button('Proqnoz'):
     
     prediction = model.predict(input_data_scaled)
     predict_percent = prediction[0]*100
-    st.write(f"neti: {prediction}")
     st.write(f"netice: {predict_percent}")
     
     # # 7. Proqnoz verin
@@ -231,43 +230,43 @@ if st.button('Proqnoz'):
     # predict_percent = prediction[0,1]*100
     # # st.write(f'Sizin hamilə qalmaq ehtimalınız: {predict_percent:.1f} %')
 
-    # # Display the prediction probability
-    # if predict_percent > 80:
-    #     card_html = f"""
-    #     <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
-    #         <h2 style="color: #4CAF50;">Təbriklər!</h2>
-    #         <p style="font-size: 24px; color: #9d00ff;">🎉 Hər şey mükəmməl görünür! Sizin hamilə qalmaq ehtimalınız:</p>
-    #         <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
-    #     </div>
-    #     """
+    # Display the prediction probability
+    if predict_percent > 80:
+        card_html = f"""
+        <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
+            <h2 style="color: #4CAF50;">Təbriklər!</h2>
+            <p style="font-size: 24px; color: #9d00ff;">🎉 Hər şey mükəmməl görünür! Sizin hamilə qalmaq ehtimalınız:</p>
+            <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
+        </div>
+        """
 
-    # elif 50 < predict_percent <= 80:
-    #     card_html = f"""
-    #     <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
-    #         <h2 style="color: #4CAF50;">Yaxşı xəbər!</h2>
-    #         <p style="font-size: 24px; color: #9d00ff;">😊 Sizin hamilə qalmaq ehtimalınız:</p>
-    #         <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
-    #     </div>
-    #     """
+    elif 50 < predict_percent <= 80:
+        card_html = f"""
+        <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
+            <h2 style="color: #4CAF50;">Yaxşı xəbər!</h2>
+            <p style="font-size: 24px; color: #9d00ff;">😊 Sizin hamilə qalmaq ehtimalınız:</p>
+            <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
+        </div>
+        """
 
-    # elif 30 < predict_percent <= 50:
-    #     card_html = f"""
-    #     <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
-    #         <h2 style="color: #4CAF50;">Normal</h2>
-    #         <p style="font-size: 24px; color: #9d00ff;">🌟 Göstəriciləriniz:</p>
-    #         <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
-    #     </div>
-    #     """
+    elif 30 < predict_percent <= 50:
+        card_html = f"""
+        <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
+            <h2 style="color: #4CAF50;">Normal</h2>
+            <p style="font-size: 24px; color: #9d00ff;">🌟 Göstəriciləriniz:</p>
+            <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
+        </div>
+        """
 
-    # else:
-    #     card_html = f"""
-    #     <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
-    #         <h2 style="color: #4CAF50;">Dəstəkləyici Mesaj</h2>
-    #         <p style="font-size: 24px; color: #9d00ff;">💭 Ehtimalınız:</p>
-    #         <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
-    #     </div>
-    #     """
+    else:
+        card_html = f"""
+        <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
+            <h2 style="color: #4CAF50;">Dəstəkləyici Mesaj</h2>
+            <p style="font-size: 24px; color: #9d00ff;">💭 Ehtimalınız:</p>
+            <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
+        </div>
+        """
 
-    # # Display the HTML in Streamlit
-    # st.markdown(card_html, unsafe_allow_html=True)
+    # Display the HTML in Streamlit
+    st.markdown(card_html, unsafe_allow_html=True)
 
