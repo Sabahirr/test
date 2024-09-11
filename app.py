@@ -5,68 +5,72 @@ import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
 
-# 1. Modeli yükləyin
-#model = pickle.load(open('model_log.pkl', 'rb'))
+import tensorflow as tf
+print(tf.__version__)
+
+# 1. Load the model
+# model = pickle.load(open('model_log.pkl', 'rb'))
 model = tf.keras.models.load_model('model_ann_hamilelik.keras')
 
-# 2. StandardScaler üçün nümunə: təlim zamanı istifadə etdiyiniz scaler-i yenidən yükləməli və ya saxlamalısınız.
+# 2. Load the StandardScaler that was used during training
 scaler = pickle.load(open('scaler.pkl', 'rb'))
 
 
-# 3. Başlıq və izahat
+# 3. Title and description
 st.title("Daxil etdiyiniz məlumatlara əsasən Hamiləlik proqnozu")
 st.write("Bu tətbiq sinir şəbəkəsi modeli ilə proqnoz verir. Aşağıda dəyərləri daxil edin və 'Proqnoz' düyməsinə basın.")
 
-# 4. İstifadəçi girişini tələb edin (məlumatları daxil etmək üçün sahələr)
+# 4. Collect user inputs (fields for entering data)
 
-# Başlıq
+# Header
 st.header('Ginekoloji Xəstəliklər və Sağlamlıq Məlumatları')
 
-# Sütunlar
+# Columns for inputs
 col1, col2, col3, col4 = st.columns(4)
 
-# İlk sütunda yerləşən inputlar
+# Inputs in the first column
 with col1:
     yas = st.number_input('Yaş', min_value=0, max_value=120, step=1)
     bmi = st.number_input('BMI', min_value=0.0, format="%.1f")
     
-# İkinci sütunda yerləşən inputlar
+# Inputs in the second column
 with col2:
     fsh = st.number_input('FSH', min_value=0.0, format="%.1f")
     amh = st.number_input('AMH', min_value=0.0, format="%.1f")
 
-# Üçüncü sütunda yerləşən inputlar
+# Inputs in the third column
 with col3:
     hamilelik_sayisi = st.number_input('Hamiləlik sayısı', min_value=0, step=1)
     dogus_sayisi = st.number_input('Doğuş sayısı', min_value=0, step=1)
 
+# Inputs in the fourth column
 with col4:
     sonsuzluq_suresi = st.number_input('Sonsuzluq müddəti (ay)', min_value=0, step=1)
     endometrial_qalinliq = st.number_input('Endometrial qalınlıq (mm)', min_value=0.0, format="%.1f")
 
 
-# Checkbox-lar
+# Checkboxes for gynecological conditions
 
 st.subheader('Ginekoloji Xəstəliklər')
 
-# "Yoxdur" seçimi
+# "Yoxdur" checkbox
 yoxdur = st.checkbox('Yoxdur')
 
-# Sütunlar
+# Columns for gynecological conditions checkboxes
 col1, col2, col3 = st.columns(3)
 
-# Əgər "Yoxdur" seçilibsə, digər checkbox-ları deaktiv et
+# Disable other checkboxes if "Yoxdur" is selected
 disabled = False
 if yoxdur:
     disabled = True
 
-# İlk sütunda yerləşən checkbox-lar
+# Checkboxes for different conditions in columns
 with col1:
     endometrit = st.checkbox('Endometrit', disabled=disabled)
     kista = st.checkbox('Kista', disabled=disabled)
     mioma = st.checkbox('Mioma', disabled=disabled)
 
-# İkinci sütunda yerləşən checkbox-lar
+
 with col2:
     polip = st.checkbox('Polip', disabled=disabled)
     salpiqoofrit = st.checkbox('Salpiqoofrit', disabled=disabled)
@@ -78,7 +82,7 @@ with col3:
     usakliq_anomaliyasi = st.checkbox('Uşaqlıq anomaliyası', disabled=disabled)
 
     
-# 'Yoxdur' seçildikdə digər seçimləri deaktiv edin
+# If "None" is selected, disable other options
 if yoxdur:
     st.warning('“Yoxdur” seçildikdə digər seçimlər deaktivdir.')
     bakterial_vaginoz = False
@@ -92,10 +96,10 @@ if yoxdur:
     emeliyyat = False
 
 
-# Sonsuzluq növləri başlığı
+# Sonsuzluq növləri section
 st.subheader('Sonsuzluq Növləri')
 
-# Sonsuzluq növləri üçün radio buttom
+# Sonsuzluq növləri Radio button for
 
 sonsuzluq_novu = st.radio("Sonsuzluq növü seçin:", ('Birincili', 'Ikincili'))
 if sonsuzluq_novu=='Birincili':
@@ -106,7 +110,7 @@ else:
     birincili = False
 
 
-# Sonsuzluq diaqnozları
+# Sonsuzluq diaqnozları section
 st.subheader('Sonsuzluq Diaqnozları')
 
 col1, col2, col3 = st.columns(3)
@@ -122,11 +126,11 @@ with col3:
 
 
 
-# Nəticələri göstər
+# Show the entered information
 st.subheader("Sizin Məlumatlarınız:")
 
 
-# Verilənləri bir sözlük (dictionary) formatında yığırıq
+# Collect the input data into a dictionary
 data = {
     "Yaş": [yas],
     "BMI": [bmi],
@@ -138,12 +142,11 @@ data = {
     "Endometrial qalınlıq": f'{endometrial_qalinliq} mm'
 }
 
-# Sözlükdən pandas DataFrame yaradırıq
+# Convert the dictionary into a pandas DataFrame and display it
 df = pd.DataFrame(data)
-
-# DataFrame-i Streamlit vasitəsilə göstəririk
 st.write(df)
 
+# Create a dictionary with the selected values for Ginekoloji Xəstəliklər, Sonsuzluq Diaqnozları, and Sonsuzluq Növləri
 # Create a dictionary with the selected values
 data = {
     "Ginekoloji Xəstəliklər": [],
@@ -151,7 +154,7 @@ data = {
     "Sonsuzluq Növləri": []
 }
 
-# Ginekoloji Xəstəliklər
+# Add conditions to the dictionary based on the checkboxes
 if bakterial_vaginoz:
     data["Ginekoloji Xəstəliklər"].append("Bakterial vaginoz")
 if endometrit:
@@ -174,7 +177,7 @@ if emeliyyat:
 if yoxdur:
     data["Ginekoloji Xəstəliklər"] = ["Yoxdur"]
 
-# Sonsuzluq Diaqnozları
+# Add Sonsuzluq Diaqnozları to the dictionary
 if az_yumurta_ehtiyyati:
     data["Sonsuzluq Diaqnozları"].append("Az yumurta ehtiyyatı")
 if boru_faktoru:
@@ -186,13 +189,13 @@ if kisi_faktoru:
 if pkys:
     data["Sonsuzluq Diaqnozları"].append("PKYS")
 
-# Sonsuzluq Növləri
+# Add Sonsuzluq Növləri to the dictionary
 if birincili:
     data["Sonsuzluq Növləri"].append("Birincili")
 elif ikincili:
     data["Sonsuzluq Növləri"].append("İkincili")
 
-# Create a DataFrame
+# Convert the dictionary into a DataFrame and display it
 df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in data.items()]))
 
 # Replace NaN values with empty strings
@@ -203,24 +206,24 @@ st.write(df)
 
 
 
-# 5. Proqnoz üçün düymə
+# 5. Prediction button
 if st.button('Proqnoz'):
-    # 6. İstifadəçi girişindən alınan dəyərləri proqnoz üçün hazırlayın
+    # 6. Prepare the data for prediction
     input_data = np.array([[yas, bmi, fsh, amh, hamilelik_sayisi, dogus_sayisi, sonsuzluq_suresi, endometrial_qalinliq,
                             bakterial_vaginoz, endometrit, kista, mioma, polip, salpiqoofrit, ub_patologiya, 
                             usakliq_anomaliyasi, yoxdur, emeliyyat, birincili, ikincili, az_yumurta_ehtiyyati, 
                             boru_faktoru, digər, kisi_faktoru, pkys]])
     
-    # Veriləri uyğun şəkildə transformasiya edin (scaler təlimdən saxlanılmış olmalıdır)
+    # Scale the data
     input_data_scaled = scaler.transform(input_data)
     
-    prediction = model.predict(input_data_scaled)
-    predict_percent = f"{float(prediction[0]) * 100:.1f}
-    
-    # # 7. Proqnoz verin
-    # prediction = model.predict_proba(input_data_scaled)
+    # 7. Make a prediction
+    # prediction = model.predict_proba(input_data_scaled)        # for Log model
     # predict_percent = prediction[0,1]*100
-    # # st.write(f'Sizin hamilə qalmaq ehtimalınız: {predict_percent:.1f} %')
+
+    prediction = model.predict(input_data_scaled)            # for ANN model
+    predict_percent = f"{float(prediction[0]) * 100:.1f}"
+
 
     # Display the prediction probability
     if predict_percent > 80:
