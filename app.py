@@ -222,7 +222,8 @@ if st.button('Proqnoz'):
     # predict_percent = prediction[0,1]*100
 
     prediction = model.predict(input_data_scaled)            # for ANN model
-    predict_percent = f"{float(prediction[0]) * 100:.1f}"
+    predict_percent = float(prediction[0]) * 100
+    # predict_percent = f"{float(prediction[0]) * 100:.1f}"
 
 
     # Display the prediction probability
