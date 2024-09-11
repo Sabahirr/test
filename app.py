@@ -255,8 +255,8 @@ if st.button('Proqnoz'):
     else:
         card_html = f"""
         <div style="border: 2px solid #FFC107; border-radius: 10px; padding: 20px; text-align: center;">
-            <h2 style="color: #4CAF50;">Dəstəkləyici Mesaj</h2>
-            <p style="font-size: 24px; color: #9d00ff;">💭 Ehtimalınız:</p>
+            <h2 style="color: #4CAF50;">☹️☹️☹️☹️☹️</h2>
+            <p style="font-size: 24px; color: #9d00ff;">Ehtimalınız:</p>
             <h1 style="color: #93C572;">{predict_percent:.1f}%</h1>
         </div>
         """
