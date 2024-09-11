@@ -5,9 +5,6 @@ import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
 
-import tensorflow as tf
-print(tf.__version__)
-
 # 1. Modeli yükləyin
 #model = pickle.load(open('model_log.pkl', 'rb'))
 model = tf.keras.models.load_model('model_ann_hamilelik.keras')
@@ -147,10 +144,6 @@ df = pd.DataFrame(data)
 # DataFrame-i Streamlit vasitəsilə göstəririk
 st.write(df)
 
-
-import pandas as pd
-import streamlit as st
-
 # Create a dictionary with the selected values
 data = {
     "Ginekoloji Xəstəliklər": [],
@@ -222,7 +215,7 @@ if st.button('Proqnoz'):
     input_data_scaled = scaler.transform(input_data)
     
     prediction = model.predict(input_data_scaled)
-    predict_percent = prediction[0]*100
+    predict_percent = float(prediction[0]) * 100
     st.write(f"netice: {predict_percent}")
     
     # # 7. Proqnoz verin
