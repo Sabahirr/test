@@ -5,6 +5,8 @@ import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
 
+import tensorflow as tf
+print(tf.__version__)
 
 # 1. Modeli yükləyin
 #model = pickle.load(open('model_log.pkl', 'rb'))
@@ -261,6 +263,6 @@ if st.button('Proqnoz'):
         </div>
         """
 
-#     # Display the HTML in Streamlit
-#     st.markdown(card_html, unsafe_allow_html=True)
+    # Display the HTML in Streamlit
+    st.markdown(card_html, unsafe_allow_html=True)
 
